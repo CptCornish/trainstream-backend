@@ -2,17 +2,19 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from .api import api_router
 
 
 def create_app() -> FastAPI:
     app = FastAPI(title="TrainStream API")
 
-    # CORS so the React frontend (Vite on 5173) can talk to the API
+    # CORS so the React frontend (local + Azure) can talk to the API
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:5173"],
+        allow_origins=[
+            "http://localhost:5173",
+            "https://nice-ocean-0cd1c0903.3.azurestaticapps.net",  # your SWA URL
+        ],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -25,3 +27,4 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+
